@@ -58,35 +58,34 @@ class ListMovie {
         this.search_str = search_str;
         this.loading_next();
         this.element_page = 1;
-        this.element_loading = 0;
-        this.element_loadinglodingcomplit = 0;
         this.node = document.querySelector('.slider__wrapper');
-        this.cleardom();
+        this.clear_node();
         this.click_next_t = 0;
     }
 
-    cleardom() {
+    clear_node() {
 
         this.node.innerHTML = '';
         document.querySelector('.loding').style.display = 'block';
         slider = new multiItemSlider('.slider');
+        document.querySelector('.error').innerHTML = 'No results for …';
         document.querySelector('.error').style.display = 'none';
     }
     async loading_next() {
 
         let moviesmass = await getMovie(this.search_str, this.page);
         if (!moviesmass.Search) {
-            if (this.movies.length == 0)
-                document.querySelector('.error').style.display = 'block';
+            document.querySelector('.error').style.display = 'block';
+            if (moviesmass.Error == "Movie not found!") {} else document.querySelector('.error').innerHTML = moviesmass.Error;
             document.querySelector('.loding').style.display = 'none';
         } else {
             this.page++;
             for (let item of moviesmass.Search) {
                 {
-                    this.element_loading++
-                        let reiting = await getRerating(item.imdbID);
+
+                    let reiting = await getRerating(item.imdbID);
                     this.movies.push(new Movie(item.Title, item.Poster, item.Year, reiting.imdbRating));
-                    this.element_loadinglodingcomplit++;
+                    this.movies[this.movies.length - 1].dom_title.href = `https://www.imdb.com/title/${item.imdbID}`;
                 }
             }
 
@@ -119,6 +118,10 @@ let listMovie = new ListMovie('avengers', 'slider__wrapper');
 document.querySelector('.button__search').addEventListener('click', () => {
     listMovie = new ListMovie(document.querySelector('#inpur__search').value, 'slider_wrapper');
 });
+document.querySelector('.slider__control_right').addEventListener('click', () => {
+    listMovie.click_next();
+});
+
 document.addEventListener('keydown', (event) => {
 
     if (event.code == 'Enter')

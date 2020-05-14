@@ -1,7 +1,7 @@
 'use strict';
 
 var _transform = 0;
-
+let addEvent = false;
 let multiItemSlider = (function() {
     return function() {
         let
@@ -34,12 +34,16 @@ let multiItemSlider = (function() {
         let _setUpListeners = function() {
             // добавление к кнопкам "назад" и "вперед" обрботчика _controlClick для событя click
             _sliderControls.forEach(function(item) {
+
                 item.addEventListener('click', _controlClick);
             });
         }
 
         // инициализация
-        _setUpListeners();
+        if (!addEvent) {
+            _setUpListeners();
+            addEvent = true;
+        }
 
         return {
             right: function() { // метод right
