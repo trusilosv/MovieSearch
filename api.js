@@ -6,8 +6,8 @@ async function getMovie(str, page) {
     let data = await res.json();
     return data;
 }
-async function translation(str) {
-    const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200514T045835Z.62def7e35ebc8937.ddbe63185a35d26ed37e6ec58ec99e5ad4edf91b&text=${str}&lang=ru-en`;
+async function translation(str, l1, l2) {
+    const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200514T045835Z.62def7e35ebc8937.ddbe63185a35d26ed37e6ec58ec99e5ad4edf91b&text=${str}&lang=${l1}-${l2}`;
     let res = await fetch(url);
     let data = await res.json();
     return data;
@@ -61,7 +61,7 @@ class ListMovie {
         this.node = document.querySelector('.slider__wrapper');
         this.clear_node();
         this.click_next_t = 0;
-        this.item = 4;
+        this.item = 2;
     }
 
     clear_node() {
@@ -78,7 +78,13 @@ class ListMovie {
     }
     async loading_next() {
         document.querySelector('.loding').style.display = 'block';
-        let moviesmass = await getMovie(this.search_str, this.page);
+        let moviesmass;
+        if (document.querySelector('.language').innerHTML == 'en')
+            moviesmass = await getMovie(this.search_str, this.page);
+        else {
+            let Englishname = await translation(this.search_str, 'ru', 'en');
+            moviesmass = await getMovie(Englishname.text[0], this.page);
+        }
         if (!moviesmass.Search) {
             document.querySelector('.error').style.display = 'block';
             if (moviesmass.Error == "Movie not found!") {} else document.querySelector('.error').innerHTML = moviesmass.Error;
@@ -87,10 +93,11 @@ class ListMovie {
             this.page++;
             for (let item of moviesmass.Search) {
                 {
-
                     let reiting = await getRerating(item.imdbID);
                     this.movies.push(new Movie(item.Title, item.Poster, item.Year, reiting.imdbRating));
                     this.movies[this.movies.length - 1].dom_title.href = `https://www.imdb.com/title/${item.imdbID}`;
+                    if (document.querySelector('.language').innerHTML == 'ru')
+                        this.movies[this.movies.length - 1].dom_title.innerHTML = (await translation(item.Title, 'en', 'ru')).text[0];
                 }
             }
 
@@ -141,4 +148,5 @@ function newsearch() {
 }
 window.onresize = () => {
     listMovie.item = Math.trunc(document.querySelector('.slider').style.width / 260);
+    slider.itemsadd(listMovie.movies.length - listMovie.item);
 };
