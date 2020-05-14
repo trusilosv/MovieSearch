@@ -61,18 +61,23 @@ class ListMovie {
         this.node = document.querySelector('.slider__wrapper');
         this.clear_node();
         this.click_next_t = 0;
+        this.item = 4;
     }
 
     clear_node() {
 
         this.node.innerHTML = '';
-        document.querySelector('.loding').style.display = 'block';
+
         slider = new multiItemSlider('.slider');
         document.querySelector('.error').innerHTML = 'No results for …';
         document.querySelector('.error').style.display = 'none';
+        _transform = 0;
+        slider.transform();
+        slider.itemsadd(0);
+        slider.items_temp();
     }
     async loading_next() {
-
+        document.querySelector('.loding').style.display = 'block';
         let moviesmass = await getMovie(this.search_str, this.page);
         if (!moviesmass.Search) {
             document.querySelector('.error').style.display = 'block';
@@ -100,7 +105,7 @@ class ListMovie {
                         element.domadd = true;
                     };
                 });
-
+                slider.itemsadd(this.movies.length - this.item);
                 document.querySelector('.loding').style.display = 'none';
             }, 0);
         }
@@ -116,7 +121,7 @@ class ListMovie {
 
 let listMovie = new ListMovie('avengers', 'slider__wrapper');
 document.querySelector('.button__search').addEventListener('click', () => {
-    listMovie = new ListMovie(document.querySelector('#inpur__search').value, 'slider_wrapper');
+    newsearch();
 });
 document.querySelector('.slider__control_right').addEventListener('click', () => {
     listMovie.click_next();
@@ -126,5 +131,14 @@ document.addEventListener('keydown', (event) => {
 
     if (event.code == 'Enter')
 
-        listMovie = new ListMovie(document.querySelector('#inpur__search').value, 'slider_wrapper');
+        newsearch();
 });
+
+function newsearch() {
+    listMovie = new ListMovie(document.querySelector('#inpur__search').value, 'slider_wrapper');
+    _transform = 0;
+
+}
+window.onresize = () => {
+    listMovie.item = Math.trunc(document.querySelector('.slider').style.width / 260);
+};

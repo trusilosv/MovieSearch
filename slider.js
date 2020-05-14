@@ -2,6 +2,8 @@
 
 var _transform = 0;
 let addEvent = false;
+var items = 0;
+var _items_temp = 0;
 let multiItemSlider = (function() {
     return function() {
         let
@@ -11,11 +13,13 @@ let multiItemSlider = (function() {
             _step = 100;
 
         let _transformItem = function(direction) {
-            if (direction === 'right') {
+            if (direction === 'right' && _items_temp <= items) {
                 _transform -= _step;
+                _items_temp++;
             }
-            if (direction === 'left') {
+            if (direction === 'left' && _items_temp > 0) {
                 _transform += _step;
+                _items_temp--;
             }
             _sliderWrapper.style.transform = 'translateX(' + _transform + '%)';
         }
@@ -53,7 +57,9 @@ let multiItemSlider = (function() {
             left: function() { // метод left
                 _transformItem('left');
             },
-
+            transform: function() { _sliderWrapper.style.transform = 'translateX(' + _transform + '%)'; },
+            itemsadd: function(item) { items = item },
+            items_temp: function() { _items_temp = 0; },
         }
 
     }
