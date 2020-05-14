@@ -147,6 +147,10 @@
         align-items: center;
     }
     
+    a {
+        text-decoration: none;
+    }
+    
     .movie_img {
         width: 200px;
         height: 300px;
@@ -163,6 +167,7 @@
         font-size: 30px;
         font-size: 800;
         text-shadow: rgb(223, 88, 88) 0 0 15px;
+        color: black;
     }
     
     #fountainTextG {
