@@ -1,4 +1,5 @@
 'use strict';
+
 var slider;
 async function getMovie(str, page) {
     const url = `https://www.omdbapi.com/?s=${str}&page=${page}&apikey=ad16c671`;
@@ -61,7 +62,7 @@ class ListMovie {
         this.node = document.querySelector('.slider__wrapper');
         this.clear_node();
         this.click_next_t = 0;
-        this.item = 2;
+        this.item = 4;
     }
 
     clear_node() {
@@ -162,3 +163,4 @@ window.onresize = () => {
     listMovie.item = Math.trunc(document.querySelector('.slider').style.width / 260);
     slider.itemsadd(listMovie.movies.length - listMovie.item);
 };
+window.onload(async() => { alert() });
