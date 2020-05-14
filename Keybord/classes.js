@@ -107,6 +107,7 @@ class Keyboard {
         this.keys.forEach((item) => {
             item.setlanguage(this.language, this.shift);
         });
+        return this.language;
 
     }
     switch_key() {

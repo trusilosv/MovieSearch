@@ -41,7 +41,7 @@
     
     @media(max-width:400px) {
         header {
-            height: 60px;
+            height: 50px;
         }
         footer {
             height: 50px;
@@ -266,4 +266,18 @@
     
     .loding {
         display: none;
+    }
+    
+    .error {
+        display: none;
+    }
+    
+    .language {
+        background: radial-gradient(rgb(223, 88, 88), rgb(73, 69, 68));
+        border-style: none;
+        height: 20px;
+        border-radius: 5px;
+        box-shadow: black 0 0 5px;
+        margin-top: 30px;
+        cursor: pointer;
     }
