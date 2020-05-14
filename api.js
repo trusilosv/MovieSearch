@@ -119,7 +119,7 @@ class ListMovie {
 }
 
 
-let listMovie = new ListMovie('avengers', 'slider__wrapper');
+let listMovie = new ListMovie('iron man', 'slider__wrapper');
 document.querySelector('.button__search').addEventListener('click', () => {
     newsearch();
 });
