@@ -20,7 +20,7 @@ keyboard.setkey("CapsLock").addact(() => { caps(); });
 keyboard.setkey("ShiftLeft").act = keyboard.setkey("CapsLock").act;
 keyboard.setkey("ShiftRight").act = keyboard.setkey("CapsLock").act;
 keyboard.setkey("Space").addact(() => { add_texarea(" ") });
-keyboard.setkey("Enter").addact(() => { add_texarea("\n") });
+
 keyboard.setkey("ContextMenu").addact(() => {
     keyboard.switch_language();
 });
@@ -122,5 +122,19 @@ document.querySelector('.button__keyboard').addEventListener('click', () => {
         document.querySelector(".slider").style.display = 'none';
     }
 
+
+});
+
+document.querySelector('.language').addEventListener('click', (element) => {
+    let lang = keyboard.switch_language();
+    element.target.innerHTML = lang;
+    if (lang == "en") {
+        document.querySelector('#inpur__search').placeholder = 'Search here...';
+        document.querySelector('.h1').innerHTML = 'MovieSearch';
+    }
+    if (lang == "ru") {
+        document.querySelector('#inpur__search').placeholder = 'Искать здесь...';
+        document.querySelector('.h1').innerHTML = 'КиноПоиск';
+    }
 
 });
