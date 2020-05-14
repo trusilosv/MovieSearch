@@ -77,44 +77,56 @@ class ListMovie {
         slider.items_temp();
     }
     async loading_next() {
-        document.querySelector('.loding').style.display = 'block';
-        let moviesmass;
-        if (document.querySelector('.language').innerHTML == 'en')
-            moviesmass = await getMovie(this.search_str, this.page);
-        else {
-            let Englishname = await translation(this.search_str, 'ru', 'en');
-            moviesmass = await getMovie(Englishname.text[0], this.page);
-        }
-        if (!moviesmass.Search) {
-            document.querySelector('.error').style.display = 'block';
-            if (moviesmass.Error == "Movie not found!") {} else document.querySelector('.error').innerHTML = moviesmass.Error;
-            document.querySelector('.loding').style.display = 'none';
-        } else {
-            this.page++;
-            for (let item of moviesmass.Search) {
-                {
-                    let reiting = await getRerating(item.imdbID);
-                    this.movies.push(new Movie(item.Title, item.Poster, item.Year, reiting.imdbRating));
-                    this.movies[this.movies.length - 1].dom_title.href = `https://www.imdb.com/title/${item.imdbID}`;
-                    if (document.querySelector('.language').innerHTML == 'ru')
-                        this.movies[this.movies.length - 1].dom_title.innerHTML = (await translation(item.Title, 'en', 'ru')).text[0];
-                }
+        try {
+
+
+            document.querySelector('.loding').style.display = 'block';
+            let moviesmass;
+            if (document.querySelector('.language').innerHTML == 'en')
+                moviesmass = await getMovie(this.search_str, this.page);
+            else {
+                let Englishname = await translation(this.search_str, 'ru', 'en');
+
+                moviesmass = await getMovie(Englishname.text[0], this.page);
+
+
             }
-
-            setTimeout(() => {
-
-                this.movies.forEach(element => {
-                    if (!element.domadd) {
-                        let moviesa = document.createElement('div');
-                        moviesa.classList.add('slider__item');
-                        document.querySelector('.slider__wrapper').appendChild(moviesa);
-                        element.dom_add(moviesa);
-                        element.domadd = true;
-                    };
-                });
-                slider.itemsadd(this.movies.length - this.item);
+            if (!moviesmass.Search) {
+                document.querySelector('.error').style.display = 'block';
+                if (moviesmass.Error == "Movie not found!") {} else document.querySelector('.error').innerHTML = moviesmass.Error;
                 document.querySelector('.loding').style.display = 'none';
-            }, 0);
+            } else {
+                this.page++;
+                for (let item of moviesmass.Search) {
+                    {
+                        let reiting = await getRerating(item.imdbID);
+                        this.movies.push(new Movie(item.Title, item.Poster, item.Year, 'imdb:' + reiting.imdbRating));
+                        this.movies[this.movies.length - 1].dom_title.href = `https://www.imdb.com/title/${item.imdbID}`;
+                        if (document.querySelector('.language').innerHTML == 'ru')
+                            this.movies[this.movies.length - 1].dom_title.innerHTML = (await translation(item.Title, 'en', 'ru')).text[0];
+                    }
+                }
+
+                setTimeout(() => {
+
+                    this.movies.forEach(element => {
+                        if (!element.domadd) {
+                            let moviesa = document.createElement('div');
+                            moviesa.classList.add('slider__item');
+                            document.querySelector('.slider__wrapper').appendChild(moviesa);
+                            element.dom_add(moviesa);
+                            element.domadd = true;
+                        };
+                    });
+                    slider.itemsadd(this.movies.length - this.item);
+                    document.querySelector('.loding').style.display = 'none';
+                }, 0);
+            }
+        } catch (e) {
+            document.querySelector('.loding').style.display = 'none';
+            document.querySelector('.error').innerHTML = 'Error';
+            document.querySelector('.error').style.display = 'block';
+
         }
     }
     click_next() {

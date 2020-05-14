@@ -168,6 +168,8 @@
         font-size: 800;
         text-shadow: white 0 0 10px;
         color: black;
+        overflow: hidden;
+        height: 30px;
     }
     
     #fountainTextG {
