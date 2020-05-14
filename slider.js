@@ -13,7 +13,7 @@ let multiItemSlider = (function() {
             _step = 100;
 
         let _transformItem = function(direction) {
-            if (direction === 'right' && _items_temp <= items) {
+            if (direction === 'right' && _items_temp + 1 < items) {
                 _transform -= _step;
                 _items_temp++;
             }
