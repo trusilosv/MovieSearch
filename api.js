@@ -1,4 +1,5 @@
 'use strict';
+alert('смена языка на клавишу(en). переводит так же и название нового запроса ');
 
 var slider;
 async function getMovie(str, page) {
