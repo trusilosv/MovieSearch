@@ -20,7 +20,7 @@ keyboard.setkey("CapsLock").addact(() => { caps(); });
 keyboard.setkey("ShiftLeft").act = keyboard.setkey("CapsLock").act;
 keyboard.setkey("ShiftRight").act = keyboard.setkey("CapsLock").act;
 keyboard.setkey("Space").addact(() => { add_texarea(" ") });
-
+keyboard.setkey("Enter").addact(newsearch);
 keyboard.setkey("ContextMenu").addact(() => {
     keyboard.switch_language();
 });
