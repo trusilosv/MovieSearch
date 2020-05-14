@@ -1,7 +1,7 @@
 'use strict';
 var slider;
 async function getMovie(str, page) {
-    const url = `https://www.omdbapi.com/?s=${str}&page=${page}&apikey=6bbdd328`;
+    const url = `https://www.omdbapi.com/?s=${str}&page=${page}&apikey=ad16c671`;
     let res = await fetch(url);
     let data = await res.json();
     return data;
@@ -13,7 +13,7 @@ async function translation(str, l1, l2) {
     return data;
 }
 async function getRerating(id) {
-    const url = `https://www.omdbapi.com/?i=${id}&apikey=6bbdd328`;
+    const url = `https://www.omdbapi.com/?i=${id}&apikey=ad16c671`;
     let res = await fetch(url);
     let data = await res.json();
     return data;
